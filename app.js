@@ -9,6 +9,8 @@ const views = require('koa-views');
 const statics = require('koa-static');
 const bodyParser = require('koa-bodyparser');
 
+const koaBody = require('koa-body')
+
 // 加载云函数定义，你可以将云函数拆分到多个文件方便管理，但需要在主文件中加载它们
 require('./cloud');
 
@@ -34,6 +36,7 @@ router.get('/', async function(ctx) {
 });
 
 // 可以将一类的路由单独保存在一个文件中
+app.use(koaBody({ multipart: true }))
 app.use(require('./routes/todos').routes());
 app.use(require('./routes/wechatAPI').routes())
 

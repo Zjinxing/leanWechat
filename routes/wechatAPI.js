@@ -1,4 +1,6 @@
 const Router = require('koa-router')
+const fs = require('fs')
+const path = require('path')
 
 const api = require('../wechat/wechatAPI/api.js')
 
@@ -142,6 +144,185 @@ router.get('/getFollowers', async ctx => {
   } catch (err) {
     ctx.body = err
   }
+})
+
+// 设置用户备注名
+router.post('/updateRemark', async ctx => {
+  const body = ctx.request
+  const { openid, remark } = body
+  try {
+    ctx.body = await api.updateRemark(openid, remark)
+  } catch (err) {
+    ctx.body = err
+  }
+})
+
+// 获取用户基本信息
+router.get('/getUser', async ctx => {
+  const options = ctx.query
+  // console.log(options)  
+  try {
+    ctx.body = await api.getUser(options)
+  } catch (err) {
+    ctx.body = err
+  }
+})
+
+// 批量获取用户信息
+router.post('/batchGetUsers', async ctx => {
+  const { body } = ctx.request
+  const { openids } = body
+  try {
+    // console.log(body)
+    ctx.body = await api.batchGetUsers(openids)
+  } catch (err) {
+    ctx.body = err
+  }
+})
+
+/*********** 消息管理 ***********/
+
+// 客服消息，发送文字消息
+router.post('/sendText', async ctx => {
+  const { body } = ctx.request
+  const { openid, text } = body
+  try {
+    ctx.body = await api.sendText(openid, text)
+  } catch (err) {
+    ctx.body = err
+  }
+})
+
+// 客服消息，发送图片
+router.post('/sendImage', async ctx => {
+  const { body } = ctx.request
+  const { openid, mediaId } = body
+  try {
+    ctx.body = await api.sendImage(openid, mediaId)
+  } catch (err) {
+    ctx.body = err
+  }
+})
+
+// 客服消息，发送卡券
+router.post('/sendCard', async ctx => {
+  const { body } = ctx.request
+  const { openid, card_id } = body
+  try {
+    ctx.body = await api.sendCard(openid, card_id)
+  } catch (err) {
+    ctx.body = err
+  }
+})
+
+// 客服消息，发送语音消息
+router.post('/sendVoice', async ctx => {
+  const { body } = ctx.request
+  const { openid, mediaId } = body
+  try {
+    ctx.body = await api.sendVoice(openid, mediaId)
+  } catch (err) {
+    ctx.body = err
+  }
+})
+
+// 客服消息，发送音乐消息
+router.post('/sendVoice', async ctx => {
+  const { body } = ctx.request
+  const { openid, music } = body
+  try {
+    ctx.body = await api.sendVoice(openid, music)
+  } catch (err) {
+    ctx.body = err
+  }
+})
+
+// 客服消息，发送视频消息
+router.post('/sendVoice', async ctx => {
+  const { body } = ctx.request
+  const { openid, mediaId, thumbMediaId } = body
+  try {
+    ctx.body = await api.sendVoice(openid, mediaId, thumbMediaId)
+  } catch (err) {
+    ctx.body = err
+  }
+})
+
+// 客服消息，发送图文消息
+router.post('/sendVoice', async ctx => {
+  const { body } = ctx.request
+  const { openid, articles } = body
+  try {
+    ctx.body = await api.sendVoice(openid, articles)
+  } catch (err) {
+    ctx.body = err
+  }
+})
+
+// 获取公众号自动回复规则
+router.get('/getAutoreply', async ctx => {
+  try {    
+    ctx.body = await api.getAutoreply()
+  } catch (err) {
+    ctx.body = err
+  }
+})
+
+/************* 群发消息 *************/
+
+// 上传图文
+router.post('/uploadNews', async ctx => {
+  const { body } = ctx.request
+  const { news } = body
+  try {
+    ctx.body = await api.uploadNews(news)
+  } catch (err) {
+    ctx.body = err
+  }
+})
+
+// 群发图文消息
+router.post('/massSendNews', async ctx => {
+  const { body } = ctx.request
+  const { mediaId, receivers } = body 
+  try {
+    ctx.body = await api.massSendText(mediaId, receivers)
+  } catch (err) {
+    ctx.body = err
+  }
+})
+
+// 群发文本消息
+router.post('/massSendText', async ctx => {
+  const { body } = ctx.request
+  const { content, receivers } = body
+  try {
+    ctx.body = await api.massSendText(content, receivers)
+  } catch (err) {
+    ctx.body = err
+  }
+})
+
+/*************** 素材管理 *************/
+
+// 上传图片
+
+router.post('/uploadImageMaterial', async ctx => {
+  const file = ctx.request.files.file
+  console.log(file)
+  const mypath = path.resolve(`${file.name}`)
+  console.log(mypath)
+  try {
+    ctx.body = await api.uploadImageMaterial(mypath)
+  } catch (err) {
+    ctx.body = err
+  }
+})
+
+// upload Test
+router.post('/upload', ctx => {
+  const file = ctx.request.files.file
+  console.log(file)
 })
 
 module.exports = router

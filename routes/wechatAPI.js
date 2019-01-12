@@ -172,8 +172,9 @@ router.get('/getUser', async ctx => {
 router.post('/batchGetUsers', async ctx => {
   const { body } = ctx.request
   const { openids } = body
+  console.log(body)
   try {
-    // console.log(body)
+    console.log(openids)
     ctx.body = await api.batchGetUsers(openids)
   } catch (err) {
     ctx.body = err
@@ -456,16 +457,18 @@ router.post('/uploadMaterial', async ctx => {
   }
 })
 
-// 上传图片
+// 上传图片   
 router.post('/uploadImageMaterial', async ctx => {
   const file = ctx.request.files.file
   const reader = fs.createReadStream(file.path)
   let filepath = path.resolve(file.name)
   const upStream = fs.createWriteStream(filepath);
   reader.pipe(upStream)
-  // console.log('文件路径',filepath)
+  console.log('文件路径',filepath)
+  console.log(filepath)
+  console.log(ctx.request.files)
   try {
-    ctx.body = await api.uploadThumbMaterial(filepath)
+    ctx.body = await api.uploadImageMaterial(filepath)
   } catch (err) {
     ctx.body = err
   }
@@ -479,7 +482,7 @@ router.post('/uploadVoiceMaterial', async ctx => {
   const upStream = fs.createWriteStream(filepath);
   reader.pipe(upStream)
   try {
-    ctx.body = await api.uploadThumbMaterial(filepath)
+    ctx.body = await api.uploadVoiceMaterial(filepath)
   } catch (err) {
     ctx.body = err
   }
@@ -494,6 +497,20 @@ router.post('/uploadThumbMaterial', async ctx => {
   reader.pipe(upStream)
   try {
     ctx.body = await api.uploadThumbMaterial(filepath)
+  } catch (err) {
+    ctx.body = err
+  }
+})
+
+// 上传临时缩略图素材
+router.post('/uploadThumbMedia', async ctx => {
+  const file = ctx.request.files.file
+  const reader = fs.createReadStream(file.path)
+  let filepath = path.resolve(file.name)
+  const upStream = fs.createWriteStream(filepath);
+  reader.pipe(upStream)
+  try {
+    ctx.body = await api.uploadThumbMedia(filepath)
   } catch (err) {
     ctx.body = err
   }

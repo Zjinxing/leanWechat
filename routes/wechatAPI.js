@@ -461,7 +461,6 @@ router.post('/uploadMaterial', async ctx => {
 router.post('/uploadImageMaterial', async ctx => {
   const file = ctx.request.files.file
   const reader = fs.createReadStream(file.path)
-  let filepath = path.resolve(file.name)
   const upStream = fs.createWriteStream(filepath);
   reader.pipe(upStream)
   console.log('文件路径',filepath)

@@ -19,9 +19,11 @@
     "koa-static": "^4.0.1",
     "koa-views": "^6.0.2",
     "koa2-cors": "^2.0.6",
+    "koa2-request": "^1.0.4",
     "leancloud-storage": "^3.0.2",
     "leanengine": "^3.0.0",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "request": "^2.88.0"
   },
   "devDependencies": {
     "nodemon": "^1.11.0"

@@ -468,6 +468,7 @@ router.post('/uploadImageMaterial', async ctx => {
   console.log(filepath)
   console.log(ctx.request.files)
   try {
+    console.log('try:', filepath)
     ctx.body = await api.uploadImageMaterial(filepath)
   } catch (err) {
     ctx.body = err
@@ -482,7 +483,8 @@ router.post('/uploadVoiceMaterial', async ctx => {
   const upStream = fs.createWriteStream(filepath);
   reader.pipe(upStream)
   try {
-    ctx.body = await api.uploadVoiceMaterial(filepath)
+    const result = await api.uploadVoiceMaterial(filepath)
+    ctx.body = result
   } catch (err) {
     ctx.body = err
   }

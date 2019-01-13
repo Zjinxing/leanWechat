@@ -59,5 +59,6 @@ router.get('/', async function(ctx) {
 app.use(require('./routes/todos').routes())
 app.use(require('./routes/wechat').routes())
 app.use(require('./routes/wechatAPI').routes())
+app.use(require('./wechat/uploadMaterial/upload.js').routes())
 
 module.exports = app;

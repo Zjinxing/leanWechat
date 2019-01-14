@@ -134,6 +134,83 @@ router.post('/getIdList', async ctx => {
   }
 })
 
+/*********** 分组管理 ************/
+
+// 获取分组
+router.get('/getGroups', async ctx => {
+  try {
+    ctx.body = api.getGroups()
+  } catch (err) {
+    ctx.body = err
+  }
+})
+
+// 查询用户在哪个分组
+router.post('/getWhichGroup', async ctx => {
+  const { body } = ctx.request
+  const { openid } = body
+  try {
+    ctx.body = await api.getWhichGroup(openid)
+  } catch (err) {
+    ctx.body = err
+  }
+})
+
+// 创建分组
+router.post('/createGroup', async ctx => {
+  const { body } = ctx.request
+  const { groupname } = body
+  try {
+    ctx.body = await api.createGroup(groupname)
+  } catch (err) {
+    ctx.body = err
+  }
+})
+
+// 更改分组名字
+router.post('/updateGroup', async ctx => {
+  const { body } = ctx.request
+  const { id, name } = body
+  try {
+    ctx.body = await api.updateGroup(id, name)
+  } catch (err) {
+    ctx.body = err
+  }
+})
+
+// 移动用户到分组
+router.post('/moveUserToGroup', async ctx => {
+  const { body } = ctx.request
+  const { openid, groupId } = body
+  try {
+    ctx.body = await api.moveUserToGroup(openid, groupId)
+  } catch (err) {
+    ctx.body = err
+  }
+})
+
+// 批量移动用户到分组
+router.post('/moveUsersToGroup', async ctx => {
+  const { body } = ctx.request
+  const { openids, groupId } = body
+  try {
+    ctx.body = await api.moveUsersToGroup(openids, groupId)
+  } catch (err) {
+    ctx.body = err
+  }
+})
+
+// 删除分组
+router.post('/removeGroup', async ctx => {
+  const { body } = ctx.request
+  const { groupId } = body
+  try {
+    ctx.body = await api.removeGroup(groupId)
+  } catch (err) {
+    ctx.body = err
+  }
+})
+
 /*********** 用户管理 ************/
 
 // 获取所有用户列表
